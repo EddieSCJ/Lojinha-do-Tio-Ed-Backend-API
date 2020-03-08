@@ -44,6 +44,7 @@ public class LojinhaApplication implements CommandLineRunner{
 		produto2.addCategories(escritorio);
 		produto2.addCategories(informatica);
 		
+		// ! Every calls the mapped first, not the creator of join table
 		categoryRepository.saveAll(Arrays.asList(informatica, escritorio));
 		productRepository.saveAll(Arrays.asList(produto1, produto2));
 	}
