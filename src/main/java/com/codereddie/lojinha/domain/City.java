@@ -1,19 +1,18 @@
 package com.codereddie.lojinha.domain;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
-public class Category implements Serializable{
+public class City implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -22,19 +21,18 @@ public class Category implements Serializable{
 	private Integer id;
 	private String name;
 	
-	@JsonManagedReference // This is a mother entity
-	@ManyToMany(mappedBy = "categories")
-	private List<Product> products = new ArrayList<Product>();
-
+	@ManyToOne
+	@JoinColumn(name = "estado_id")
+	private State state;
 	
-	public Category() {
-		
+	public City() {
+	
 	}
 
-	public Category(Integer id, String nome) {
-		super();
+	public City(Integer id, String name, State state) {
 		this.id = id;
-		this.name = nome;
+		this.name = name;
+		this.state = state;
 	}
 
 	public Integer getId() {
@@ -49,17 +47,8 @@ public class Category implements Serializable{
 		return name;
 	}
 
-	public void setName(String nome) {
-		this.name = nome;
-	}
-	
-	
-	public List<Product> getProducts() {
-		return products;
-	}
-
-	public void addProduct(Product product) {
-		this.products.add(product);
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	@Override
@@ -78,7 +67,7 @@ public class Category implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Category other = (Category) obj;
+		City other = (City) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -86,7 +75,6 @@ public class Category implements Serializable{
 			return false;
 		return true;
 	}
-
 	
 	
 }

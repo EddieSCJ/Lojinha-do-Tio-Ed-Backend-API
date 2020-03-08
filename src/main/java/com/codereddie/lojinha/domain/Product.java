@@ -72,7 +72,7 @@ public class Product implements Serializable {
 		return categories;
 	}
 
-	public void addCategories(Category category) {
+	public void addCategory(Category category) {
 		this.categories.add(category);
 	}
 
