@@ -20,7 +20,7 @@ public enum ClientType {
 		return description;
 	}
 	
-	public static ClientType ClientTypeToEnum(Integer code) {
+	public static ClientType toEnum(Integer code) {
 		if(code == null) {
 			return null;
 		}
