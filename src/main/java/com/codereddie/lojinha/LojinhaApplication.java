@@ -12,6 +12,7 @@ import com.codereddie.lojinha.domain.Address;
 import com.codereddie.lojinha.domain.Category;
 import com.codereddie.lojinha.domain.City;
 import com.codereddie.lojinha.domain.Client;
+import com.codereddie.lojinha.domain.OrderItem;
 import com.codereddie.lojinha.domain.Orderr;
 import com.codereddie.lojinha.domain.Payament;
 import com.codereddie.lojinha.domain.PayamentWithBankBill;
@@ -24,6 +25,7 @@ import com.codereddie.lojinha.repository.AddressRepository;
 import com.codereddie.lojinha.repository.CategoryRepository;
 import com.codereddie.lojinha.repository.CityRepository;
 import com.codereddie.lojinha.repository.ClientRepository;
+import com.codereddie.lojinha.repository.OrderItemRepository;
 import com.codereddie.lojinha.repository.OrderrRepository;
 import com.codereddie.lojinha.repository.PayamentRepository;
 import com.codereddie.lojinha.repository.ProductRepository;
@@ -55,6 +57,9 @@ public class LojinhaApplication implements CommandLineRunner{
 	
 	@Autowired
 	AddressRepository addressRepository;
+	
+	@Autowired
+	OrderItemRepository orderItemRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(LojinhaApplication.class, args);
@@ -120,6 +125,19 @@ public class LojinhaApplication implements CommandLineRunner{
 
 		orderrRepository.saveAll(Arrays.asList(ped1, ped2));
 		payamentRepository.saveAll(Arrays.asList(pagto1, pagto2));
+		
+		OrderItem ip1 = new OrderItem(ped1, p1, 0.00, 1, 2000.00);
+		OrderItem ip2 = new OrderItem(ped1, p3, 0.00, 2, 80.00);
+		OrderItem ip3 = new OrderItem(ped2, p2, 100.00, 1, 800.00);
+
+		ped1.getItens().addAll(Arrays.asList(ip1, ip2));
+		ped2.getItens().addAll(Arrays.asList(ip3));
+
+		p1.getItens().addAll(Arrays.asList(ip1));
+		p2.getItens().addAll(Arrays.asList(ip3));
+		p3.getItens().addAll(Arrays.asList(ip2));
+
+		orderItemRepository.saveAll(Arrays.asList(ip1, ip2, ip3));
 	
 	}
 

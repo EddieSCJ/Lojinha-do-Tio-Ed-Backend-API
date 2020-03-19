@@ -2,7 +2,9 @@ package com.codereddie.lojinha.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,8 +13,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Product implements Serializable {
@@ -34,6 +38,11 @@ public class Product implements Serializable {
 		)
 	private List<Category> categories = new ArrayList<Category>();
 
+	@JsonManagedReference
+	@OneToMany(mappedBy = "orderItemṔK.product")
+	private Set<OrderItem> itens = new HashSet<OrderItem>();
+
+	
 	public Product() {
 		
 	}
@@ -82,6 +91,14 @@ public class Product implements Serializable {
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
+	}
+	
+	public Set<OrderItem> getItens() {
+		return itens;
+	}
+
+	public void addItens(OrderItem item) {
+		this.itens.add(item);
 	}
 
 	@Override

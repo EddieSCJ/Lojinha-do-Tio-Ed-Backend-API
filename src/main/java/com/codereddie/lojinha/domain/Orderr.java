@@ -2,6 +2,8 @@ package com.codereddie.lojinha.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -10,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -40,6 +43,10 @@ public class Orderr implements Serializable{
 	@ManyToOne
 	@JoinColumn(name = "address_id")
 	private Address address;
+	
+	@JsonManagedReference
+	@OneToMany(mappedBy = "orderItemṔK.orderr")
+	private Set<OrderItem> itens = new HashSet<>();
 	
 	public Orderr() {
 		
@@ -99,6 +106,14 @@ public class Orderr implements Serializable{
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
+	}
+	
+	public Set<OrderItem> getItens() {
+		return itens;
+	}
+
+	public void setItens(OrderItem item) {
+		this.itens.add(item);
 	}
 
 	@Override
