@@ -24,11 +24,15 @@ public class Client implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Integer id;
 	private String name;
 	private String email;
 	private String cpfOuCnpj;
 	private Integer clientType;
+	
+	@JsonManagedReference
+	@OneToMany(mappedBy = "client")
+	List<Orderr> orders = new ArrayList<Orderr>();
 	
 	@ElementCollection
 	@CollectionTable(
@@ -45,7 +49,7 @@ public class Client implements Serializable{
 		
 	}
 	
-	public Client(int id, String name, String email, String cpfOuCnpj, ClientType clientType) {
+	public Client(Integer id, String name, String email, String cpfOuCnpj, ClientType clientType) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -54,7 +58,7 @@ public class Client implements Serializable{
 		this.clientType = clientType.getCode();
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
@@ -86,8 +90,8 @@ public class Client implements Serializable{
 		this.cpfOuCnpj = cpfOuCnpj;
 	}
 
-	public ClientType getClientType() {
-		return ClientType.toEnum(this.clientType);
+	public String getClientType() {
+		return ClientType.toEnum(this.clientType).getDescription();
 	}
 
 	public void setClientType(ClientType clientType) {
@@ -98,7 +102,7 @@ public class Client implements Serializable{
 		return phones;
 	}
 
-	public void setPhones(String phone) {
+	public void addPhone(String phone) {
 		this.phones.add(phone);
 	}
 
@@ -106,8 +110,16 @@ public class Client implements Serializable{
 		return addresses;
 	}
 
-	public void setaddresses(Address address) {
+	public void addAddress(Address address) {
 		this.addresses.add(address);
+	}
+
+	public List<Orderr> getOrders() {
+		return orders;
+	}
+
+	public void addOrder(Orderr order) {
+		this.orders.add(order);
 	}
 
 	@Override

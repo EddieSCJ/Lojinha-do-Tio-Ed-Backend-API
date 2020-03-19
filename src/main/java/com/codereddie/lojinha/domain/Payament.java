@@ -1,41 +1,43 @@
 package com.codereddie.lojinha.domain;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.MapsId;
+import javax.persistence.OneToOne;
 
+import com.codereddie.lojinha.domain.enums.PayamentState;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
-public class State implements Serializable{
+@Inheritance(strategy = InheritanceType.JOINED)
+public class Payament implements Serializable{
 
 	private static final long serialVersionUID = 1L;
-
+	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	private String name;
-	
+	private Integer payamentState;
+
 	@JsonBackReference
-	@OneToMany(mappedBy = "state")
-	private List<City> cities = new ArrayList<City>();
+	@OneToOne
+	@JoinColumn(name="order_id")
+	@MapsId
+	private Orderr order;
 	
-	public State() {
-	
+	public Payament() {
+		
 	}
 
-	public State(Integer id, String name) {
+	public Payament(Integer id, PayamentState payamentState, Orderr order) {
 		super();
 		this.id = id;
-		this.name = name;
+		this.payamentState = payamentState.getCode();
+		this.order = order;
 	}
 
 	public Integer getId() {
@@ -46,22 +48,20 @@ public class State implements Serializable{
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public PayamentState getPayamentState() {
+		return PayamentState.toEnum(this.payamentState);
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setPayamentState(PayamentState payamentState) {
+		this.payamentState = payamentState.getCode();
 	}
 
-	
-	
-	public List<City> getCities() {
-		return cities;
+	public Orderr getOrder() {
+		return order;
 	}
 
-	public void addCity(City city) {
-		this.cities.add(city);
+	public void setOrder(Orderr order) {
+		this.order = order;
 	}
 
 	@Override
@@ -69,7 +69,6 @@ public class State implements Serializable{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
 
@@ -81,20 +80,15 @@ public class State implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		State other = (State) obj;
+		Payament other = (Payament) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
 		return true;
 	}
-
+	
 	
 	
 	
