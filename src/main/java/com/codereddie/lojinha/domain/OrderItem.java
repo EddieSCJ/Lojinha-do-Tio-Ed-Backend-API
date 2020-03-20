@@ -7,11 +7,14 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class OrderItem implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@JsonIgnore
 	@EmbeddedId
 	private OrderItemṔK orderItemṔK = new OrderItemṔK();
 	
@@ -64,6 +67,7 @@ public class OrderItem implements Serializable {
 		this.quantity = quantity;
 	}
 	
+	@JsonIgnore
 	public Orderr getOrder() {
 		return orderItemṔK.getOrderr();
 	}

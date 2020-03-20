@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public class Payament implements Serializable{
+public abstract class Payament implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	

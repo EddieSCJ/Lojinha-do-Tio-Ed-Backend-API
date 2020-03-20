@@ -35,7 +35,7 @@ public class Orderr implements Serializable{
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "order")
 	private  Payament payament;
 
-	@JsonBackReference
+	@JsonManagedReference
 	@ManyToOne
 	@JoinColumn(name = "client_id")
 	private Client client;
@@ -44,7 +44,6 @@ public class Orderr implements Serializable{
 	@JoinColumn(name = "address_id")
 	private Address address;
 	
-	@JsonManagedReference
 	@OneToMany(mappedBy = "orderItemṔK.orderr")
 	private Set<OrderItem> itens = new HashSet<>();
 	

@@ -5,13 +5,16 @@ import java.util.Date;
 import javax.persistence.Entity;
 
 import com.codereddie.lojinha.domain.enums.PayamentState;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 public class PayamentWithBankBill extends Payament{
 	
 	private static final long serialVersionUID = 1L;
 	
+	@JsonFormat(pattern="dd/MM/yyyy")
 	private Date paymanetDate;
+	@JsonFormat(pattern="dd/MM/yyyy")
 	private Date expirationDate;
 	
 	public PayamentWithBankBill() {
