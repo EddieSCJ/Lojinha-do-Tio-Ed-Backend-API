@@ -22,7 +22,6 @@ public class Category implements Serializable{
 	private Integer id;
 	private String name;
 	
-	@JsonManagedReference // This is a mother entity
 	@ManyToMany(mappedBy = "categories")
 	private List<Product> products = new ArrayList<Product>();
 

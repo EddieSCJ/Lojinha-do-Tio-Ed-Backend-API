@@ -15,7 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import com.codereddie.lojinha.domain.enums.ClientType;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -31,7 +31,7 @@ public class Client implements Serializable{
 	private String cpfOuCnpj;
 	private Integer clientType;
 	
-	@JsonBackReference
+	@JsonIgnore
 	@OneToMany(mappedBy = "client")
 	List<Orderr> orders = new ArrayList<Orderr>();
 	
