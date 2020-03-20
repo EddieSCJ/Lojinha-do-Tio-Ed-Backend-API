@@ -1,5 +1,6 @@
 package com.codereddie.lojinha.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,12 @@ public class CategoryService {
 
 	@Autowired
 	private CategoryRepository categoryRepository;
+
+	public List<Category> findAll() {
+		List<Category> category = categoryRepository.findAll();
+		
+		return category;
+	}
 	
 	public Category findByID(Integer id) {
 		Optional<Category> category = categoryRepository.findById(id);
@@ -23,4 +30,8 @@ public class CategoryService {
 										", Type: " + Category.class.getName()));
 	}
 	
+	public Category insert(Category category) {
+		category.setId(null);
+		return categoryRepository.save(category);
+	}
 }
