@@ -8,7 +8,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 @Embeddable
-public class OrderItemṔK implements Serializable{
+public class OrderItemPK implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
@@ -48,7 +48,7 @@ public class OrderItemṔK implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		OrderItemṔK other = (OrderItemṔK) obj;
+		OrderItemPK other = (OrderItemPK) obj;
 		if (orderr == null) {
 			if (other.orderr != null)
 				return false;

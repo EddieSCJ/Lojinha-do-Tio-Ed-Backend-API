@@ -2,6 +2,7 @@ package com.codereddie.lojinha.resources;
 
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.codereddie.lojinha.domain.Category;
+import com.codereddie.lojinha.dto.CategoryDTO;
 import com.codereddie.lojinha.services.CategoryService;
 
 @RestController
@@ -26,8 +28,10 @@ public class CategoryResource {
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<?> findAll() {
 		
-		List<Category> category = categoryService.findAll();
-		return ResponseEntity.ok().body(category);
+		List<Category> categories = categoryService.findAll();
+		List<CategoryDTO> dtoList = categories.stream().map(category -> new CategoryDTO(category)).collect(Collectors.toList());
+		
+		return ResponseEntity.ok().body(dtoList);
 		
 	}
 	

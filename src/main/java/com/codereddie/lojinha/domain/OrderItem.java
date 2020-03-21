@@ -16,7 +16,7 @@ public class OrderItem implements Serializable {
 
 	@JsonIgnore
 	@EmbeddedId
-	private OrderItemṔK orderItemṔK = new OrderItemṔK();
+	private OrderItemPK orderItemṔK = new OrderItemPK();
 	
 	private Double discount;
 	private Double price;
@@ -35,11 +35,11 @@ public class OrderItem implements Serializable {
 		this.quantity = quantity;
 	}
 
-	public OrderItemṔK getOrderItemṔK() {
+	public OrderItemPK getOrderItemṔK() {
 		return orderItemṔK;
 	}
 
-	public void setOrderItemṔK(OrderItemṔK orderItemṔK) {
+	public void setOrderItemṔK(OrderItemPK orderItemṔK) {
 		this.orderItemṔK = orderItemṔK;
 	}
 
