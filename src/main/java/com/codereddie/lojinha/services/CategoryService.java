@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.codereddie.lojinha.domain.Category;
+import com.codereddie.lojinha.dto.CategoryDTO;
 import com.codereddie.lojinha.repository.CategoryRepository;
 import com.codereddie.lojinha.services.exceptions.DataIntegrityException;
 import com.codereddie.lojinha.services.exceptions.ObjectNotFoundException;
@@ -61,4 +62,7 @@ public class CategoryService {
 		
 	}
 	
+	public Category fromDTO(CategoryDTO category) {
+		return new Category(category.getId(), category.getName());
+	}
 }
