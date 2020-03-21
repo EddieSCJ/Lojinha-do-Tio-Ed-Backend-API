@@ -4,11 +4,14 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.codereddie.lojinha.services.exceptions.DataIntegrityException;
 import com.codereddie.lojinha.services.exceptions.ObjectNotFoundException;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @ControllerAdvice
 public class ResourceExceptionHandler {
@@ -40,4 +43,24 @@ public class ResourceExceptionHandler {
 		
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(standardError);
 	}
+	
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public ResponseEntity<StandardError> validation(
+			MethodArgumentNotValidException error, 
+			HttpServletRequest request){
+		
+		ValidationError validationError = new ValidationError(
+				HttpStatus.BAD_REQUEST.value(),
+				"Validation Erros ",
+				System.currentTimeMillis()
+				);
+		
+		for(FieldError e : error.getBindingResult().getFieldErrors()) {
+			validationError.addMessagesList(e.getField(), e.getDefaultMessage()); 
+		}
+		
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(validationError);
+	}
+	
+
 }

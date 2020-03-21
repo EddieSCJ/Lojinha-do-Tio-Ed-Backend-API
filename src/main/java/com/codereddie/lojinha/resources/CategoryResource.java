@@ -66,6 +66,13 @@ public class CategoryResource {
 		
 	}
 
+	 /** 
+	 * Recebe parâmetros para realizar uma busca paginada
+	 * @author Edcleidson Júnior
+	 * 
+	 * @return Uma página com os dados buscados, apenas dados no padrão DTO implementado
+	 * Não traz produtos e dependentes
+	 */
 	@RequestMapping(value = "/page", method = RequestMethod.GET )
 	public ResponseEntity<Page> findPage(
 			@RequestParam(name="page", defaultValue="0") Integer index, 
@@ -111,12 +118,13 @@ public class CategoryResource {
 	 * @param Integer - ID
 	 * @return ?
 	 */
-	
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Void> update(@PathVariable Integer id, @Valid @RequestBody CategoryDTO categoryDTO){
 		categoryDTO.setId(id);
+		
 		Category category = categoryService.fromDTO(categoryDTO);
 		categoryService.update(category);
+		
 		return ResponseEntity.noContent().build();
 		
 	}
