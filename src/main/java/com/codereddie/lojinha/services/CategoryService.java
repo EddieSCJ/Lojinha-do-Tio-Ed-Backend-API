@@ -5,6 +5,9 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.codereddie.lojinha.domain.Category;
@@ -50,4 +53,12 @@ public class CategoryService {
 			throw new DataIntegrityException("Category has products and is not possible delete categories with products");
 		}
 	}
+	
+	public Page<Category> findPage(Integer index, Integer linesPerPage, String orderBy, String direction){
+		PageRequest pageRequest =  PageRequest.of(index, linesPerPage, Direction.valueOf(direction), 
+				orderBy);
+		return categoryRepository.findAll(pageRequest);
+		
+	}
+	
 }
