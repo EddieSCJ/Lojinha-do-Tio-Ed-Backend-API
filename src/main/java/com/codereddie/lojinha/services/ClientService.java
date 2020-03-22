@@ -3,8 +3,6 @@ package com.codereddie.lojinha.services;
 import java.util.List;
 import java.util.Optional;
 
-import javax.el.MethodNotFoundException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -12,16 +10,22 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
+import com.codereddie.lojinha.domain.Address;
+import com.codereddie.lojinha.domain.City;
 import com.codereddie.lojinha.domain.Client;
-import com.codereddie.lojinha.domain.Client;
+import com.codereddie.lojinha.domain.enums.ClientType;
 import com.codereddie.lojinha.dto.ClientDTO;
-import com.codereddie.lojinha.repository.ClientRepository;
+import com.codereddie.lojinha.dto.ClientPOSTDTO;
+import com.codereddie.lojinha.repository.AddressRepository;
 import com.codereddie.lojinha.repository.ClientRepository;
 import com.codereddie.lojinha.services.exceptions.DataIntegrityException;
 import com.codereddie.lojinha.services.exceptions.ObjectNotFoundException;
 
 @Service
 public class ClientService {
+
+	@Autowired
+	AddressRepository addressRepository;
 
 	@Autowired
 	private ClientRepository clientRepository;
@@ -41,7 +45,9 @@ public class ClientService {
 
 	public Client insert(Client client) {
 		client.setId(null);
-		return clientRepository.save(client);
+		clientRepository.save(client);
+		addressRepository.saveAll(client.getAddresses());
+		return client;
 	}
 
 	public Client update(Client client) {
@@ -73,6 +79,24 @@ public class ClientService {
 
 	public Client fromDTO(ClientDTO clientDTO) {
 		return new Client(clientDTO.getId(), clientDTO.getName(), clientDTO.getEmail(), null, null);
+	}
+
+	public Client fromDTO(ClientPOSTDTO clientPOSTDTO) {
+		Client client = new Client(null, clientPOSTDTO.getName(), clientPOSTDTO.getEmail(),
+				clientPOSTDTO.getCpfOuCnpj(), ClientType.toEnum(clientPOSTDTO.getClientType()));
+
+		City city = new City(clientPOSTDTO.getCityID(), null, null);
+
+		Address address = new Address(null, clientPOSTDTO.getPlace(), clientPOSTDTO.getNumber(),
+				clientPOSTDTO.getComplement(), clientPOSTDTO.getNeighborhood(), clientPOSTDTO.getCEP(), client, city);
+		client.addAddress(address);
+
+		client.addPhone(clientPOSTDTO.getPhone());
+		if (clientPOSTDTO.getPhoneux() != null) {
+			client.addPhone(clientPOSTDTO.getPhoneux());
+		}
+
+		return client;
 	}
 
 	private void updateData(Client client, Client newClient) {

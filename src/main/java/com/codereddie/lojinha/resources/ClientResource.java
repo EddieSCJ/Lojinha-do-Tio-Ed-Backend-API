@@ -15,10 +15,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.codereddie.lojinha.domain.Category;
 import com.codereddie.lojinha.domain.Client;
-import com.codereddie.lojinha.dto.CategoryDTO;
 import com.codereddie.lojinha.dto.ClientDTO;
+import com.codereddie.lojinha.dto.ClientPOSTDTO;
 import com.codereddie.lojinha.services.ClientService;
 
 @RestController
@@ -55,23 +54,23 @@ public class ClientResource {
 	/** ==================================================== INICIO POST, PUT DELETE ================================================
 	 **/
 	
-//	/** 
-//	 * Recebe e insere no banco um conjunto de dados da categoria via objeto DTO
-//	 * @author Edcleidson Júnior
-//	 * @param Objeto DTO - Categoria
-//	 * @return URI - Endereço para acesso do objeto selecionado
-//	 */
-//	@RequestMapping(method = RequestMethod.POST)
-//	public ResponseEntity<Void> insert(@Valid @RequestBody ClientDTO clientDTO){
-//	
-//		Client client = clientService.fromDTO(clientDTO);
-//		
-//		clientService.insert(client);
-//		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(client.getId()).toUri();
-//		
-//		return ResponseEntity.created(uri).build();
-//		
-//	}
+	/** 
+	 * Recebe e insere no banco um conjunto de dados do cliente via objeto DTO
+	 * @author Edcleidson Júnior
+	 * @param Objeto DTO - Cliente
+	 * @return URI - Endereço para acesso do objeto selecionado
+	 */
+	@RequestMapping(method = RequestMethod.POST)
+	public ResponseEntity<Void> insert(@Valid @RequestBody ClientPOSTDTO clientPOSTDTO){
+	
+		Client client = clientService.fromDTO(clientPOSTDTO);
+		
+		clientService.insert(client);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(client.getId()).toUri();
+		
+		return ResponseEntity.created(uri).build();
+		
+	}
 	
 	 /** 
 	 * Recebe e atualiza no banco um conjunto de dados do cliente via objeto DTO
