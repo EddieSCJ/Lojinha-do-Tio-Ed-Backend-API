@@ -92,6 +92,7 @@ public class ClientService {
 		client.addAddress(address);
 
 		client.addPhone(clientPOSTDTO.getPhone());
+		
 		if (clientPOSTDTO.getPhoneux() != null) {
 			client.addPhone(clientPOSTDTO.getPhoneux());
 		}

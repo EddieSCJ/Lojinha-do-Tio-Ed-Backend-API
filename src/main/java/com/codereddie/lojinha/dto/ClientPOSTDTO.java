@@ -2,66 +2,59 @@ package com.codereddie.lojinha.dto;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.br.CPF;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.codereddie.lojinha.domain.Client;
-import com.codereddie.lojinha.repository.CityRepository;
 
 public class ClientPOSTDTO {
-
 
 	@NotEmpty(message = "Preenchimento obrigatório")
 	@Length(min = 3, max = 50, message = "O nome deve conter entre 5 e 50 caracteres")
 	private String name;
-	
+
 	@NotEmpty(message = "Preenchimento obrigatório")
 	@Email(message = "Email inválido")
 	private String email;
-	
+
 	@NotEmpty(message = "Preenchimento obrigatório")
 	@CPF(message = "CPF inválido")
 	private String cpfOuCnpj;
-	
-	@NotEmpty(message = "Preenchimento obrigatório")
+
+	@NotNull(message = "Preenchimento obrigatório")
 	private Integer clientType;
-	
+
 	@NotEmpty(message = "Preenchimento obrigatório")
 	@Length(min = 8, max = 14, message = "Telefone inválido em território brasileiro")
 	private String phone;
 
 	@Length(min = 8, max = 14, message = "Telefone inválido em território brasileiro")
-	@NotEmpty(message = "Preenchimento obrigatório")
 	private String phoneux;
-	
-	@NotEmpty(message = "Preenchimento obrigatório")
+
+	@NotNull(message = "Preenchimento obrigatório")
 	private Integer cityID;
 
 	@NotEmpty(message = "Preenchimento obrigatório")
 	private String place;
-	
+
 	@NotEmpty(message = "Preenchimento obrigatório")
-	private String  number;
-	
-	@NotEmpty(message = "Preenchimento obrigatório")
+	private String number;
+
 	private String complement;
-	
+
 	@NotEmpty(message = "Preenchimento obrigatório")
 	private String neighborhood;
-	
+
 	@NotEmpty(message = "Preenchimento obrigatório")
-	private String 	CEP;
-	
+	private String CEP;
+
 	public ClientPOSTDTO() {
 
 	}
 
-	public ClientPOSTDTO(@Length(min = 3, max = 50, message = "O nome deve conter entre 5 e 50 caracteres") String name,
-			@Email(message = "Email inválido") String email, String cpfOuCnpj, Integer clientType, String phone,
-			String phoneux, Integer cityID, String place, String number, String complement, String neighborhood,
-			String cEP) {
+	public ClientPOSTDTO(String name, String email, String cpfOuCnpj, Integer clientType, String phone, String phoneux,
+			Integer cityID, String place, String number, String complement, String neighborhood, String CEP) {
 		super();
 		this.name = name;
 		this.email = email;
@@ -74,7 +67,7 @@ public class ClientPOSTDTO {
 		this.number = number;
 		this.complement = complement;
 		this.neighborhood = neighborhood;
-		CEP = cEP;
+		this.CEP = CEP;
 	}
 
 	public String getCpfOuCnpj() {
@@ -169,9 +162,8 @@ public class ClientPOSTDTO {
 		return CEP;
 	}
 
-	public void setCEP(String cEP) {
-		CEP = cEP;
+	public void setCEP(String	CEP) {
+		this.CEP = CEP;
 	}
 
-	
 }
