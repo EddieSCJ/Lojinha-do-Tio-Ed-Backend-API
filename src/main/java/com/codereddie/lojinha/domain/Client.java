@@ -56,14 +56,19 @@ public class Client implements Serializable{
 		this.name = name;
 		this.email = email;
 		this.cpfOuCnpj = cpfOuCnpj;
-		this.clientType = clientType.getCode();
+		if(clientType == null) {
+			this.clientType = null;
+		}
+		else {
+			this.clientType = clientType.getCode();
+		}
 	}
 
 	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
