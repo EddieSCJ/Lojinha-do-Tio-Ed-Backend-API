@@ -3,11 +3,12 @@ package com.codereddie.lojinha.dto;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.br.CPF;
 
+import com.codereddie.lojinha.services.validation.ClientInsert;
+
+@ClientInsert
 public class ClientPOSTDTO {
 
 	@NotEmpty(message = "Preenchimento obrigatório")
@@ -19,7 +20,6 @@ public class ClientPOSTDTO {
 	private String email;
 
 	@NotEmpty(message = "Preenchimento obrigatório")
-	@CPF(message = "CPF inválido")
 	private String cpfOuCnpj;
 
 	@NotNull(message = "Preenchimento obrigatório")
