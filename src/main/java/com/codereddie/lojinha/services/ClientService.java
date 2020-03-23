@@ -84,6 +84,7 @@ public class ClientService {
 	}
 
 	public Client fromDTO(ClientPOSTDTO clientPOSTDTO) {
+		
 		Client client = new Client(null, clientPOSTDTO.getName(), clientPOSTDTO.getEmail(),
 				clientPOSTDTO.getCpfOuCnpj(), ClientType.toEnum(clientPOSTDTO.getClientType()));
 
@@ -109,7 +110,6 @@ public class ClientService {
 		if (client.getEmail() != null) {
 			newClient.setEmail(client.getEmail());
 		}
-
 	}
 
 }
