@@ -26,7 +26,7 @@ public class Product implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
-	private Double preco;
+	private Double price;
 	
 	@JsonIgnore
 	@ManyToMany
@@ -38,7 +38,7 @@ public class Product implements Serializable {
 	private List<Category> categories = new ArrayList<Category>();
 
 	@JsonIgnore
-	@OneToMany(mappedBy = "orderItemṔK.product")
+	@OneToMany(mappedBy = "orderItemPK.product")
 	private Set<OrderItem> itens = new HashSet<OrderItem>();
 
 	
@@ -46,10 +46,10 @@ public class Product implements Serializable {
 		
 	}
 	
-	public Product(Integer id, String name, Double preco) {
+	public Product(Integer id, String name, Double price) {
 		this.id = id;
 		this.name = name;
-		this.preco = preco;
+		this.price = price;
 	}
 
 	public Integer getId() {
@@ -68,12 +68,12 @@ public class Product implements Serializable {
 		this.name = name;
 	}
 
-	public Double getPreco() {
-		return preco;
+	public Double getPrice() {
+		return price;
 	}
 
-	public void setPreco(Double preco) {
-		this.preco = preco;
+	public void setPrice(Double price) {
+		this.price = price;
 	}
 
 	public List<Category> getCategories() {

@@ -16,7 +16,7 @@ public class OrderItem implements Serializable {
 
 	@JsonIgnore
 	@EmbeddedId
-	private OrderItemPK orderItemṔK = new OrderItemPK();
+	private OrderItemPK orderItemPK = new OrderItemPK();
 	
 	private Double discount;
 	private Double price;
@@ -28,19 +28,19 @@ public class OrderItem implements Serializable {
 
 	public OrderItem(Orderr order, Product product, Double discount, Integer quantity, Double price) {
 		super();
-		this.orderItemṔK.setOrderr(order);
-		this.orderItemṔK.setProduct(product);
+		this.orderItemPK.setOrderr(order);
+		this.orderItemPK.setProduct(product);
 		this.discount = discount;
 		this.price = price;
 		this.quantity = quantity;
 	}
 
-	public OrderItemPK getOrderItemṔK() {
-		return orderItemṔK;
+	public OrderItemPK getorderItemPK() {
+		return orderItemPK;
 	}
 
-	public void setOrderItemṔK(OrderItemPK orderItemṔK) {
-		this.orderItemṔK = orderItemṔK;
+	public void setorderItemPK(OrderItemPK orderItemPK) {
+		this.orderItemPK = orderItemPK;
 	}
 
 	public Double getDiscount() {
@@ -69,18 +69,18 @@ public class OrderItem implements Serializable {
 	
 	@JsonIgnore
 	public Orderr getOrder() {
-		return orderItemṔK.getOrderr();
+		return orderItemPK.getOrderr();
 	}
 	
 	public Product getProduct() {
-		return orderItemṔK.getProduct();
+		return orderItemPK.getProduct();
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((orderItemṔK == null) ? 0 : orderItemṔK.hashCode());
+		result = prime * result + ((orderItemPK == null) ? 0 : orderItemPK.hashCode());
 		return result;
 	}
 
@@ -93,10 +93,10 @@ public class OrderItem implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		OrderItem other = (OrderItem) obj;
-		if (orderItemṔK == null) {
-			if (other.orderItemṔK != null)
+		if (orderItemPK == null) {
+			if (other.orderItemPK != null)
 				return false;
-		} else if (!orderItemṔK.equals(other.orderItemṔK))
+		} else if (!orderItemPK.equals(other.orderItemPK))
 			return false;
 		return true;
 	}

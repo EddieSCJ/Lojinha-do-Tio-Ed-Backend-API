@@ -42,7 +42,7 @@ public class Orderr implements Serializable{
 	@JoinColumn(name = "address_id")
 	private Address address;
 	
-	@OneToMany(mappedBy = "orderItemṔK.orderr")
+	@OneToMany(mappedBy = "orderItemPK.orderr")
 	private Set<OrderItem> itens = new HashSet<>();
 	
 	public Orderr() {
