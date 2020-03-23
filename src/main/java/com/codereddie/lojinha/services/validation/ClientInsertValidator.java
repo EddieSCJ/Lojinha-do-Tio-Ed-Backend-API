@@ -6,12 +6,20 @@ import java.util.List;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.codereddie.lojinha.domain.Client;
 import com.codereddie.lojinha.domain.enums.ClientType;
 import com.codereddie.lojinha.dto.ClientPOSTDTO;
+import com.codereddie.lojinha.repository.ClientRepository;
 import com.codereddie.lojinha.resources.exceptions.FieldMessage;
 import com.codereddie.lojinha.services.validation.br.ValidateBRData;
 
 public class ClientInsertValidator implements ConstraintValidator<ClientInsert, ClientPOSTDTO> {
+	
+	@Autowired
+	ClientRepository clientRepository;
+	
 	@Override
 	public void initialize(ClientInsert ann) {
 	}
@@ -37,8 +45,17 @@ public class ClientInsertValidator implements ConstraintValidator<ClientInsert, 
 			list.add(new FieldMessage("ClientType",
 					"Tipo do cliente não reconhecido, favor selecionar 1 para pessoa física e 2 para pessoa jurídica"));
 		}
-		// inclua os testes aqui, inserindo erros na lista
 
+		Client client = clientRepository.findByEmail(objDto.getEmail());
+		if(client != null) {
+			list.add(new FieldMessage("email", "Email já cadastrado"));
+		}
+		client = null;
+		client = clientRepository.findByCpfOuCnpj(objDto.getCpfOuCnpj());
+		if(client != null) {
+			list.add(new FieldMessage("cpfOuCnpj", "CPF ou CNPJ já cadastrado"));
+		}
+		
 		for (FieldMessage e : list) {
 			context.disableDefaultConstraintViolation();
 			context.buildConstraintViolationWithTemplate(e.getFieldMessage()).addPropertyNode(e.getFieldName())
