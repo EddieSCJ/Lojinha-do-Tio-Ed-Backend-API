@@ -3,7 +3,9 @@ package com.codereddie.lojinha.domain;
 import javax.persistence.Entity;
 
 import com.codereddie.lojinha.domain.enums.PayamentState;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
+@JsonTypeName("payamentWithCreditCard")
 @Entity
 public class PayamentWithCreditCard extends Payament {
 

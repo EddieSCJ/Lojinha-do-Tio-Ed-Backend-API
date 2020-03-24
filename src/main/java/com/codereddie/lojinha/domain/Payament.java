@@ -12,7 +12,9 @@ import javax.persistence.OneToOne;
 
 import com.codereddie.lojinha.domain.enums.PayamentState;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Payament implements Serializable{

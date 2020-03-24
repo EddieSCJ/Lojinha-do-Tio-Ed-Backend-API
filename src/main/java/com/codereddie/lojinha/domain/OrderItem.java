@@ -72,8 +72,16 @@ public class OrderItem implements Serializable {
 		return orderItemPK.getOrderr();
 	}
 	
+	public void setOrder(Orderr orderr) {
+		this.orderItemPK.setOrderr(orderr);
+	}
+	
 	public Product getProduct() {
 		return orderItemPK.getProduct();
+	}
+	
+	public void setProduct(Product product) {
+		this.orderItemPK.setProduct(product);;
 	}
 
 	public Double getSubtotal() {

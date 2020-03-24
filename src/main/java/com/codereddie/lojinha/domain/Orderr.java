@@ -15,9 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Orderr implements Serializable{
@@ -43,7 +41,7 @@ public class Orderr implements Serializable{
 	private Address address;
 	
 	@OneToMany(mappedBy = "orderItemPK.orderr")
-	private Set<OrderItem> itens = new HashSet<>();
+	private Set<OrderItem> itens = new HashSet<OrderItem>();
 	
 	public Orderr() {
 		
@@ -114,12 +112,15 @@ public class Orderr implements Serializable{
 		for(OrderItem orderItem : itens) {
 			total+=orderItem.getSubtotal();
 		}
-		
 		return total;
 	}
 	
-	public void setItens(OrderItem item) {
+	public void addItem(OrderItem item) {
 		this.itens.add(item);
+	}
+	
+	public void setItens(Set<OrderItem> itens) {
+		this.itens = itens;
 	}
 
 	@Override

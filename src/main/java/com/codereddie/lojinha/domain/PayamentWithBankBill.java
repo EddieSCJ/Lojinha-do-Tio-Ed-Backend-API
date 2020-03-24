@@ -6,7 +6,9 @@ import javax.persistence.Entity;
 
 import com.codereddie.lojinha.domain.enums.PayamentState;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
+@JsonTypeName("payamentWithBankBill")
 @Entity
 public class PayamentWithBankBill extends Payament{
 	

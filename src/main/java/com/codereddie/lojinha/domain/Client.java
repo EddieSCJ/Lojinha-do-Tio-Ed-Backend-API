@@ -47,7 +47,6 @@ public class Client implements Serializable{
 			)
 	private Set<String> phones = new HashSet<String>();
 
-	@JsonManagedReference
 	@OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
 	private List<Address> addresses = new ArrayList<Address>();
 	
