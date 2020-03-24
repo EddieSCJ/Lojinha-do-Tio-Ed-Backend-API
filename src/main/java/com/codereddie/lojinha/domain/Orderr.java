@@ -109,6 +109,15 @@ public class Orderr implements Serializable{
 		return itens;
 	}
 
+	public Double getTotal() {
+		Double total = 0.0;
+		for(OrderItem orderItem : itens) {
+			total+=orderItem.getSubtotal();
+		}
+		
+		return total;
+	}
+	
 	public void setItens(OrderItem item) {
 		this.itens.add(item);
 	}
