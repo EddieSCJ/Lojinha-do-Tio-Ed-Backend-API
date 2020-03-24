@@ -1,6 +1,8 @@
 package com.codereddie.lojinha.domain;
 
 import java.io.Serializable;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 import javax.persistence.Embedded;
 import javax.persistence.EmbeddedId;
@@ -111,6 +113,17 @@ public class OrderItem implements Serializable {
 		} else if (!orderItemPK.equals(other.orderItemPK))
 			return false;
 		return true;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append(this.getProduct().getName());
+		builder.append(", Qtd: " + this.getQuantity());
+		builder.append(", Price: " + NumberFormat.getCurrencyInstance(new Locale("pt","BR")).format(this.getProduct().getPrice().doubleValue()));
+		builder.append(", Subtotal: " + NumberFormat.getCurrencyInstance(new Locale("pt","BR")).format( this.getSubtotal().doubleValue()) +" \n");
+		
+		return builder.toString();
 	}
 	
 	

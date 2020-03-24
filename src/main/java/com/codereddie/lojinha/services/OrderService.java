@@ -13,6 +13,7 @@ import com.codereddie.lojinha.domain.Orderr;
 import com.codereddie.lojinha.domain.Payament;
 import com.codereddie.lojinha.domain.PayamentWithBankBill;
 import com.codereddie.lojinha.domain.enums.PayamentState;
+import com.codereddie.lojinha.repository.ClientRepository;
 import com.codereddie.lojinha.repository.OrderItemRepository;
 import com.codereddie.lojinha.repository.OrderrRepository;
 import com.codereddie.lojinha.repository.PayamentRepository;
@@ -33,6 +34,8 @@ public class OrderService {
 	@Autowired
 	private OrderItemRepository orderItemRepository;
 	
+	@Autowired
+	private ClientService clientService;
 	
 	public Orderr findByID(Integer id) {
 		Optional<Orderr> order = orderRepository.findById(id);
@@ -46,7 +49,7 @@ public class OrderService {
 	public Orderr insert(Orderr order) {
 		order.setId(null);
 		order.setInstantDate(new Date());
-		
+		order.setClient(clientService.findByID(order.getClient().getId()));
 		order.getPayament().setPayamentState(PayamentState.PENDENTE);
 		order.getPayament().setOrder(order);
 		
@@ -69,11 +72,13 @@ public class OrderService {
 		
 		for (OrderItem oi : order.getItens()) {
 			oi.setDiscount(0.0);
-			oi.setPrice(productService.findByID(oi.getProduct().getId()).getPrice());
+			oi.setProduct(productService.findByID(oi.getProduct().getId()));
+			oi.setPrice(oi.getProduct().getPrice());
 			oi.setOrder(order);
 		}
 		
 		orderItemRepository.saveAll(order.getItens());
+		System.out.println(order.toString());
 		return order;
 	}
 	

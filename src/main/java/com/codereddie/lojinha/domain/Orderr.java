@@ -1,8 +1,11 @@
 package com.codereddie.lojinha.domain;
 
 import java.io.Serializable;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -139,5 +142,23 @@ public class Orderr implements Serializable{
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Order Number: " + this.getId());
+		builder.append(", Instant: " + new SimpleDateFormat("dd/MM/yyyy").format(this.getInstantDate()));
+		builder.append(", Client: " + this.getClient().getName());
+		builder.append(", Payament Situation: " + this.getPayament().getPayamentState().getDescription());
+		builder.append("\nDetails: \n");
+		for (OrderItem orderItem : itens) {
+			builder.append(orderItem.toString() + "\n");
+		}
+		builder.append("Total value: "+ NumberFormat.getCurrencyInstance(new Locale("pt","BR")).format(this.getTotal().doubleValue()));
+		return builder.toString();
+	}
+	
+	
+	
 	
 }
