@@ -8,6 +8,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +26,9 @@ import com.codereddie.lojinha.services.exceptions.ObjectNotFoundException;
 @Service
 public class ClientService {
 
+	@Autowired
+	private BCryptPasswordEncoder encrypt;
+	
 	@Autowired
 	AddressRepository addressRepository;
 
@@ -80,13 +84,13 @@ public class ClientService {
 	 */
 
 	public Client fromDTO(ClientDTO clientDTO) {
-		return new Client(clientDTO.getId(), clientDTO.getName(), clientDTO.getEmail(), null, null);
+		return new Client(clientDTO.getId(), clientDTO.getName(), clientDTO.getEmail(), null, null, null);
 	}
 
 	public Client fromDTO(ClientPOSTDTO clientPOSTDTO) {
 		
 		Client client = new Client(null, clientPOSTDTO.getName(), clientPOSTDTO.getEmail(),
-				clientPOSTDTO.getCpfOuCnpj(), ClientType.toEnum(clientPOSTDTO.getClientType()));
+				clientPOSTDTO.getCpfOuCnpj(), ClientType.toEnum(clientPOSTDTO.getClientType()), encrypt.encode(clientPOSTDTO.getPassword()) );
 
 		City city = new City(clientPOSTDTO.getCityID(), null, null);
 

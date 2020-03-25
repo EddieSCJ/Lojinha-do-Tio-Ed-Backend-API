@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.codereddie.lojinha.domain.Address;
 import com.codereddie.lojinha.domain.Category;
@@ -39,6 +40,8 @@ import com.codereddie.lojinha.services.SMTPEmaiLService;
 @Profile("dev")
 public class DevConfig {
 
+	@Autowired
+	private BCryptPasswordEncoder encrypt;
 
 	@Value("spring.jpa.hibernate.ddl-auto")
 	private String strategy;
@@ -114,7 +117,7 @@ public class DevConfig {
 				stateRepository.saveAll(Arrays.asList(est1, est2));
 				cityRepository.saveAll(Arrays.asList(c1, c2, c3));
 				
-				Client cli1 = new Client(null, "Maria Silva", "maria@gmail.com", "36378912377", ClientType.PESSOAFISICA);
+				Client cli1 = new Client(null, "Maria Silva", "maria@gmail.com", "36378912377", ClientType.PESSOAFISICA, encrypt.encode("12345678"));
 				
 				cli1.getPhones().addAll(Arrays.asList("27363323", "93838393"));
 				

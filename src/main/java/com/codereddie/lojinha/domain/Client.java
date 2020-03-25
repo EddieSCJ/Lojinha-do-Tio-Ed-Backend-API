@@ -38,6 +38,9 @@ public class Client implements Serializable{
 	private Integer clientType;
 	
 	@JsonIgnore
+	private String password;
+	
+	@JsonIgnore
 	@OneToMany(mappedBy = "client")
 	List<Orderr> orders = new ArrayList<Orderr>();
 	
@@ -55,7 +58,7 @@ public class Client implements Serializable{
 		
 	}
 	
-	public Client(Integer id, String name, String email, String cpfOuCnpj, ClientType clientType) {
+	public Client(Integer id, String name, String email, String cpfOuCnpj, ClientType clientType, String password) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -67,6 +70,7 @@ public class Client implements Serializable{
 		else {
 			this.clientType = clientType.getCode();
 		}
+		this.password = password;
 	}
 
 	public Integer getId() {
@@ -132,6 +136,14 @@ public class Client implements Serializable{
 	public void addOrder(Orderr order) {
 		this.orders.add(order);
 	}
+	
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
 	@Override
 	public int hashCode() {
@@ -154,5 +166,6 @@ public class Client implements Serializable{
 			return false;
 		return true;
 	}
+	
 	
 }

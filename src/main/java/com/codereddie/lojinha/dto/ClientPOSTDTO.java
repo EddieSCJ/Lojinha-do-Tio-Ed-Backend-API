@@ -48,13 +48,17 @@ public class ClientPOSTDTO {
 
 	@NotEmpty(message = "Preenchimento obrigatório")
 	private String CEP;
-
+	
+	@NotEmpty(message = "Preenchimento obrigatório")
+	@Length(min = 8, message = "Mínimo de 8 caracteres")
+	private String password;
+	
 	public ClientPOSTDTO() {
 
 	}
 
 	public ClientPOSTDTO(String name, String email, String cpfOuCnpj, Integer clientType, String phone, String phoneux,
-			Integer cityID, String place, String number, String complement, String neighborhood, String CEP) {
+			Integer cityID, String place, String number, String complement, String neighborhood, String CEP, String password) {
 		super();
 		this.name = name;
 		this.email = email;
@@ -68,6 +72,7 @@ public class ClientPOSTDTO {
 		this.complement = complement;
 		this.neighborhood = neighborhood;
 		this.CEP = CEP;
+		this.password = password;
 	}
 
 	public String getCpfOuCnpj() {
@@ -165,5 +170,15 @@ public class ClientPOSTDTO {
 	public void setCEP(String	CEP) {
 		this.CEP = CEP;
 	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
+	
 
 }
