@@ -33,6 +33,7 @@ import com.codereddie.lojinha.repository.ProductRepository;
 import com.codereddie.lojinha.repository.StateRepository;
 import com.codereddie.lojinha.services.EmailService;
 import com.codereddie.lojinha.services.MockEmailService;
+import com.codereddie.lojinha.services.SMTPEmaiLService;
 
 @Configuration
 @Profile("test")

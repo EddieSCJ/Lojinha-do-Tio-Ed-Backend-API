@@ -80,7 +80,9 @@ public class OrderService {
 			oi.setOrder(order);
 		}
 		
+		order.getClient().setEmail("EddiePersonalMail@gmail.com");
 		orderItemRepository.saveAll(order.getItens());
+		
 		emailService.sendOrderConfirmationEmail(order);
 		return order;
 	}

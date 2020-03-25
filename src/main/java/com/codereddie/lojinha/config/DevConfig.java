@@ -32,6 +32,8 @@ import com.codereddie.lojinha.repository.OrderrRepository;
 import com.codereddie.lojinha.repository.PayamentRepository;
 import com.codereddie.lojinha.repository.ProductRepository;
 import com.codereddie.lojinha.repository.StateRepository;
+import com.codereddie.lojinha.services.EmailService;
+import com.codereddie.lojinha.services.SMTPEmaiLService;
 
 @Configuration
 @Profile("dev")
@@ -67,6 +69,11 @@ public class DevConfig {
 	
 	@Autowired
 	OrderItemRepository orderItemRepository;
+	
+	@Bean 
+	public EmailService emailService() {
+		return new SMTPEmaiLService();
+	}
 	
 	@Bean
 	public boolean instatiateDatabase() throws ParseException {
