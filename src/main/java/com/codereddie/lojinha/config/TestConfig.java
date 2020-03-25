@@ -31,6 +31,8 @@ import com.codereddie.lojinha.repository.OrderrRepository;
 import com.codereddie.lojinha.repository.PayamentRepository;
 import com.codereddie.lojinha.repository.ProductRepository;
 import com.codereddie.lojinha.repository.StateRepository;
+import com.codereddie.lojinha.services.EmailService;
+import com.codereddie.lojinha.services.MockEmailService;
 
 @Configuration
 @Profile("test")
@@ -63,6 +65,11 @@ public class TestConfig {
 	
 	@Autowired
 	OrderItemRepository orderItemRepository;
+	
+	@Bean 
+	public EmailService emailService() {
+		return new MockEmailService();
+	}
 	
 	@Bean
 	public boolean instatiateDatabase() throws ParseException {
