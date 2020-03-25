@@ -24,6 +24,7 @@ import com.codereddie.lojinha.domain.Product;
 import com.codereddie.lojinha.domain.State;
 import com.codereddie.lojinha.domain.enums.ClientType;
 import com.codereddie.lojinha.domain.enums.PayamentState;
+import com.codereddie.lojinha.domain.enums.Profiles;
 import com.codereddie.lojinha.repository.AddressRepository;
 import com.codereddie.lojinha.repository.CategoryRepository;
 import com.codereddie.lojinha.repository.CityRepository;
@@ -118,15 +119,18 @@ public class DevConfig {
 				cityRepository.saveAll(Arrays.asList(c1, c2, c3));
 				
 				Client cli1 = new Client(null, "Maria Silva", "maria@gmail.com", "36378912377", ClientType.PESSOAFISICA, encrypt.encode("12345678"));
-				
+				Client cli2 = new Client(null, "Ana Silva", "edcleidson10@hotmail.com", "363782377", ClientType.PESSOAFISICA, encrypt.encode("12345678"));
+				cli2.addProfile(Profiles.ADMIN);
 				cli1.getPhones().addAll(Arrays.asList("27363323", "93838393"));
+				cli2.getPhones().addAll(Arrays.asList("27363323", "93838393"));
 				
 				Address e1 = new Address(null, "Rua Flores", "300", "Apto 303", "Jardim", "38220834", cli1, c1);
 				Address e2 = new Address(null, "Avenida Matos", "105", "Sala 800", "Centro", "38777012", cli1, c2);
 				
 				cli1.getAddresses().addAll(Arrays.asList(e1, e2));
+				cli2.getAddresses().addAll(Arrays.asList(e1, e2));
 
-				clientRepository.saveAll(Arrays.asList(cli1));
+				clientRepository.saveAll(Arrays.asList(cli1, cli2));
 				addressRepository.saveAll(Arrays.asList(e1, e2));
 
 				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm");
@@ -140,6 +144,7 @@ public class DevConfig {
 				Payament pagto2 = new PayamentWithBankBill(null, PayamentState.PENDENTE, ped2, sdf.parse("20/10/2017 00:00"), null);
 				ped2.setPayament(pagto2);
 
+				cli1.getOrders().addAll(Arrays.asList(ped1, ped2));
 				cli1.getOrders().addAll(Arrays.asList(ped1, ped2));
 
 				orderrRepository.saveAll(Arrays.asList(ped1, ped2));

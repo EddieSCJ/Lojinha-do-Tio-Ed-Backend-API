@@ -5,23 +5,25 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import com.codereddie.lojinha.domain.enums.ClientType;
+import com.codereddie.lojinha.domain.enums.Profiles;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
-public class Client implements Serializable{
+public class Client implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -29,48 +31,49 @@ public class Client implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
-	
+
 	@Column(unique = true)
 	private String email;
-	
+
 	@Column(unique = true)
 	private String cpfOuCnpj;
 	private Integer clientType;
-	
+
 	@JsonIgnore
 	private String password;
-	
+
 	@JsonIgnore
 	@OneToMany(mappedBy = "client")
 	List<Orderr> orders = new ArrayList<Orderr>();
-	
+
 	@ElementCollection
-	@CollectionTable(
-		name = "phone"
-			)
+	@CollectionTable(name = "phone")
 	private Set<String> phones = new HashSet<String>();
+
+	@ElementCollection(fetch = FetchType.EAGER)
+	@CollectionTable(name = "profile")
+	private Set<Integer> profiles = new HashSet<Integer>();
 
 	@OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
 	private List<Address> addresses = new ArrayList<Address>();
-	
-	
+
 	public Client() {
-		
+		this.profiles.add(Profiles.CLIENT.getCode());
 	}
-	
+
 	public Client(Integer id, String name, String email, String cpfOuCnpj, ClientType clientType, String password) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.email = email;
 		this.cpfOuCnpj = cpfOuCnpj;
-		if(clientType == null) {
+		if (clientType == null) {
 			this.clientType = null;
-		}
-		else {
+		} else {
 			this.clientType = clientType.getCode();
 		}
 		this.password = password;
+		this.profiles.add(Profiles.CLIENT.getCode());
 	}
 
 	public Integer getId() {
@@ -112,7 +115,7 @@ public class Client implements Serializable{
 	public void setClientType(ClientType clientType) {
 		this.clientType = clientType.getCode();
 	}
-	 
+
 	public Set<String> getPhones() {
 		return phones;
 	}
@@ -136,13 +139,21 @@ public class Client implements Serializable{
 	public void addOrder(Orderr order) {
 		this.orders.add(order);
 	}
-	
+
 	public String getPassword() {
 		return password;
 	}
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public Set<Profiles> getProfiles() {
+		return profiles.stream().map(profile -> Profiles.toEnum(profile)).collect(Collectors.toSet());
+	}
+
+	public void addProfile(Profiles profile) {
+		this.profiles.add(profile.getCode());
 	}
 
 	@Override
@@ -166,6 +177,6 @@ public class Client implements Serializable{
 			return false;
 		return true;
 	}
-	
-	
+
+
 }
