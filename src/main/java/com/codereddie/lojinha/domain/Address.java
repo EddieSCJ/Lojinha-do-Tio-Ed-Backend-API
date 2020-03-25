@@ -142,6 +142,25 @@ public class Address implements Serializable{
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Address place: ");
+		builder.append(place);
+		builder.append(", number: ");
+		builder.append(number);
+		builder.append(", complement: ");
+		builder.append(complement);
+		builder.append(", neighborhood: ");
+		builder.append(neighborhood);
+		builder.append(", CEP: ");
+		builder.append(CEP);
+		builder.append(", city: ");
+		builder.append(city.getName());
+		builder.append("\n");
+		return builder.toString();
+	}
 	
 	
 	

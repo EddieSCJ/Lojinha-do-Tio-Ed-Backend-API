@@ -13,7 +13,6 @@ import com.codereddie.lojinha.domain.Orderr;
 import com.codereddie.lojinha.domain.Payament;
 import com.codereddie.lojinha.domain.PayamentWithBankBill;
 import com.codereddie.lojinha.domain.enums.PayamentState;
-import com.codereddie.lojinha.repository.ClientRepository;
 import com.codereddie.lojinha.repository.OrderItemRepository;
 import com.codereddie.lojinha.repository.OrderrRepository;
 import com.codereddie.lojinha.repository.PayamentRepository;
@@ -27,6 +26,9 @@ public class OrderService {
 	
 	@Autowired
 	private ProductService  productService;
+	
+	@Autowired
+	private AddressService  addressService;
 	
 	@Autowired
 	private PayamentRepository payamentRepository;
@@ -80,10 +82,11 @@ public class OrderService {
 			oi.setOrder(order);
 		}
 		
-		order.getClient().setEmail("EddiePersonalMail@gmail.com");
+		order.setAddress(addressService.findByID(order.getAddress().getId()));
+		order.getClient().setEmail("levirlemos1230@gmail.com");
 		orderItemRepository.saveAll(order.getItens());
 		
-		emailService.sendOrderConfirmationEmail(order);
+		emailService.sendOrderConfirmationHTMLEmail(order);
 		return order;
 	}
 	

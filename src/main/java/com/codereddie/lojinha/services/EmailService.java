@@ -1,5 +1,8 @@
 package com.codereddie.lojinha.services;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 
@@ -9,8 +12,11 @@ import com.codereddie.lojinha.domain.Orderr;
 public interface EmailService {
 
 	void sendOrderConfirmationEmail(Orderr order);
-	
+
 	void sendEmail(SimpleMailMessage message);
 
-	
+	void sendOrderConfirmationHTMLEmail(Orderr order);
+
+	void sendHTMLEmail(MimeMessage message);
+
 }
