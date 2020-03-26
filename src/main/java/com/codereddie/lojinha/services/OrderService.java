@@ -5,9 +5,14 @@ import java.util.Date;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.codereddie.lojinha.domain.Category;
+import com.codereddie.lojinha.domain.Client;
 import com.codereddie.lojinha.domain.OrderItem;
 import com.codereddie.lojinha.domain.Orderr;
 import com.codereddie.lojinha.domain.Payament;
@@ -16,6 +21,8 @@ import com.codereddie.lojinha.domain.enums.PayamentState;
 import com.codereddie.lojinha.repository.OrderItemRepository;
 import com.codereddie.lojinha.repository.OrderrRepository;
 import com.codereddie.lojinha.repository.PayamentRepository;
+import com.codereddie.lojinha.security.UserSS;
+import com.codereddie.lojinha.services.exceptions.AuthorizationException;
 import com.codereddie.lojinha.services.exceptions.ObjectNotFoundException;
 
 @Service
@@ -88,6 +95,20 @@ public class OrderService {
 		
 		emailService.sendOrderConfirmationHTMLEmail(order);
 		return order;
+	}
+	
+	public Page<Orderr> findPage(Integer index, Integer linesPerPage, String orderBy, String direction){
+		UserSS user = UserService.authenticated();
+		
+		PageRequest pageRequest =  PageRequest.of(index, linesPerPage, Direction.valueOf(direction), 
+				orderBy);
+
+		if(user == null) {
+			throw new AuthorizationException("Acesso negado");
+		}
+		
+		Client client = clientService.findByID(user.getId());
+		return orderRepository.findByClient(client, pageRequest);
 	}
 	
 }

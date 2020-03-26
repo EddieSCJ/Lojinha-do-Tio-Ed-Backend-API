@@ -16,10 +16,13 @@ import com.codereddie.lojinha.domain.Address;
 import com.codereddie.lojinha.domain.City;
 import com.codereddie.lojinha.domain.Client;
 import com.codereddie.lojinha.domain.enums.ClientType;
+import com.codereddie.lojinha.domain.enums.Profiles;
 import com.codereddie.lojinha.dto.ClientDTO;
 import com.codereddie.lojinha.dto.ClientPOSTDTO;
 import com.codereddie.lojinha.repository.AddressRepository;
 import com.codereddie.lojinha.repository.ClientRepository;
+import com.codereddie.lojinha.security.UserSS;
+import com.codereddie.lojinha.services.exceptions.AuthorizationException;
 import com.codereddie.lojinha.services.exceptions.DataIntegrityException;
 import com.codereddie.lojinha.services.exceptions.ObjectNotFoundException;
 
@@ -36,6 +39,12 @@ public class ClientService {
 	private ClientRepository clientRepository;
 
 	public Client findByID(Integer id) {
+		
+		UserSS user = UserService.authenticated();
+		if(user == null || !user.hasHole(Profiles.ADMIN) && user.getId() != id) {
+			throw new AuthorizationException("Usuário não logado");
+		}
+		
 		Optional<Client> client = clientRepository.findById(id);
 
 		return client.orElseThrow(

@@ -9,9 +9,9 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.codereddie.lojinha.services.exceptions.AuthorizationException;
 import com.codereddie.lojinha.services.exceptions.DataIntegrityException;
 import com.codereddie.lojinha.services.exceptions.ObjectNotFoundException;
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 @ControllerAdvice
 public class ResourceExceptionHandler {
@@ -62,5 +62,18 @@ public class ResourceExceptionHandler {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(validationError);
 	}
 	
+	@ExceptionHandler(AuthorizationException.class)
+	public ResponseEntity<StandardError> authorization(
+			ObjectNotFoundException error, 
+			HttpServletRequest request){
+		
+		StandardError standardError = new StandardError(
+				HttpStatus.NOT_FOUND.value(),
+				error.getMessage(),
+				System.currentTimeMillis()
+				);
+		
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(standardError);
+	}
 
 }

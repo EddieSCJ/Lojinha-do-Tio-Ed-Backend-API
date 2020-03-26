@@ -74,6 +74,10 @@ public class UserSS implements UserDetails {
 		// TODO Auto-generated method stub
 		return true;
 	}
+	
+	public boolean hasHole(Profiles profile) {
+		return authorities.contains(new SimpleGrantedAuthority(profile.getDescription()));
+	}
 
 	@Override
 	public String toString() {
